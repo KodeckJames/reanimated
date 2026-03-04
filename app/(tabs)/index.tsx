@@ -64,6 +64,28 @@ export default function Home() {
     scaleValue.value = withTiming(1, {duration:2000})
   }
 
+  // Shared value update is asynchronous on JS thread but synchronous on UI thread - Example:
+  const valueJS = useSharedValue(0);
+  const valueUI = useSharedValue(0);
+
+  const updateOnJS = () => {
+    console.log(`[ValueJS] ${valueJS.value}`);
+    valueJS.value += 1;
+    console.log(`[ValueJS] ${valueJS.value}`);
+  }
+
+  const updateOnUI = () => {
+    'worklet';
+    console.log(`[ValueUI] ${valueUI.value}`);
+    valueUI.value += 1;
+    console.log(`[ValueUI] ${valueUI.value}`);
+  }
+
+  const handleUpdateAll = () => {
+    updateOnJS();
+    updateOnUI();
+  }
+
   return (
     <View className=' min-h-screen flex justify-center items-center'>
       <AnimatedThemeToggle className=' absolute left-4 top-4' />
@@ -76,6 +98,17 @@ export default function Home() {
       </Pressable>
       <Pressable onPress={()=>handleScaleUp()} onLongPress={()=>handleReset()} >
         <Animated.View style={animateScale} className=' w-24 h-24 bg-yellow-500 rounded-full mt-4' />
+      </Pressable>
+      <Pressable onPress={() => {
+        console.log("---START---");
+        updateOnJS()
+        console.log("-------------");
+        scheduleOnUI(updateOnUI);
+        scheduleOnUI(() => {
+          console.log("---END---");          
+        })
+       }} className=' p-4 rounded-xl bg-teal-500 mt-4 '>
+        <Text className=' text-foreground'>Update log</Text>
       </Pressable>
     </View>
   )
