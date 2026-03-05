@@ -2,12 +2,12 @@ import { View, Text, Pressable } from 'react-native'
 import React, { useEffect } from 'react'
 import { AnimatedThemeToggle } from '@/components/ThemeToggle'
 
-import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing, withDelay, withRepeat, ReduceMotion} from 'react-native-reanimated'
+import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing, withDelay, withRepeat, ReduceMotion, withSpring} from 'react-native-reanimated'
 import { scheduleOnUI } from 'react-native-worklets';
 
 export default function Home() {
 
-  // Opacity Example
+  // Opacity Example & withTiming, withRepeat
   const opacity = useSharedValue(0);
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -100,6 +100,19 @@ export default function Home() {
     fadeIn2();
   })
 
+  // withSpring 
+  const spring = useSharedValue(1);
+  const animateSpring = useAnimatedStyle(() => {
+    return {
+      transform:[{scale: spring.value}]
+    }
+  })
+  const handleSpring = () => {
+    spring.value=withRepeat(withSpring(2, {duration:700}), -1)
+  } 
+  useEffect(() => {
+  handleSpring()
+})
   return (
     <View className=' min-h-screen flex justify-center items-center'>
       <AnimatedThemeToggle className=' absolute left-4 top-4' />
@@ -127,6 +140,8 @@ export default function Home() {
        }} className=' p-4 rounded-xl bg-teal-500 mt-4 '>
         <Text className=' text-foreground'>Update log</Text>
       </Pressable>
+
+        <Animated.View style={animateSpring} className=' w-24 h-24 rounded-full mt-4 bg-rose-900' />
     </View>
   )
 }
