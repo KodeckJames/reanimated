@@ -2,7 +2,7 @@ import { View, Text, Pressable } from 'react-native'
 import React, { useEffect } from 'react'
 import { AnimatedThemeToggle } from '@/components/ThemeToggle'
 
-import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing, withDelay} from 'react-native-reanimated'
+import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing, withDelay, withRepeat, ReduceMotion} from 'react-native-reanimated'
 import { scheduleOnUI } from 'react-native-worklets';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
     }
   })
   const fadeIn = () => {
-    opacity.value=withTiming(1, {duration: 5000})
+    opacity.value=withRepeat(withTiming(1, {duration: 5000}),-1, false, undefined, ReduceMotion.System )
   }
 
   useEffect(() => {
