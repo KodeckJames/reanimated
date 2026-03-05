@@ -2,7 +2,7 @@ import { View, Text, Pressable } from 'react-native'
 import React, { useEffect } from 'react'
 import { AnimatedThemeToggle } from '@/components/ThemeToggle'
 
-import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue} from 'react-native-reanimated'
+import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing} from 'react-native-reanimated'
 import { scheduleOnUI } from 'react-native-worklets';
 
 export default function Home() {
@@ -86,6 +86,20 @@ export default function Home() {
     updateOnUI();
   }
 
+  // withTiming demo:
+  const opacity2 = useSharedValue(0);
+  const animatedStyle2 = useAnimatedStyle(() => {
+    return {
+      opacity:opacity2.value
+    }
+  })
+  const fadeIn2 = () => {
+    opacity2.value=withTiming(1,{duration:5000, easing:Easing.linear})
+  }
+  useEffect(() => {
+    fadeIn2();
+  })
+
   return (
     <View className=' min-h-screen flex justify-center items-center'>
       <AnimatedThemeToggle className=' absolute left-4 top-4' />
@@ -99,6 +113,9 @@ export default function Home() {
       <Pressable onPress={()=>handleScaleUp()} onLongPress={()=>handleReset()} >
         <Animated.View style={animateScale} className=' w-24 h-24 bg-yellow-500 rounded-full mt-4' />
       </Pressable>
+     
+      <Animated.View style={animatedStyle2} className=' w-24 h-24 bg-green-700 rounded-full mt-4' />
+      
       <Pressable onPress={() => {
         console.log("---START---");
         updateOnJS()
