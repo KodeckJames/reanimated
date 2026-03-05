@@ -54,7 +54,7 @@ export default function Home() {
   const scaleValue = useSharedValue(1);
   const animateScale = useAnimatedStyle(() => {
     return {
-      transform:[{scale: scaleValue.value}]
+      transform:[{scale: scaleValue.value, }]
     }
   })
   const handleScaleUp = () => {
@@ -108,11 +108,12 @@ export default function Home() {
     }
   })
   const handleSpring = () => {
-    spring.value=withRepeat(withSpring(2, {duration:700}), -1)
+    spring.value=withRepeat(withSpring(1.4, {duration:700}), -1)
   } 
   useEffect(() => {
   handleSpring()
-})
+  })
+  
   return (
     <View className=' min-h-screen flex justify-center items-center'>
       <AnimatedThemeToggle className=' absolute left-4 top-4' />
