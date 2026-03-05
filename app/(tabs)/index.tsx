@@ -2,7 +2,7 @@ import { View, Text, Pressable } from 'react-native'
 import React, { useEffect } from 'react'
 import { AnimatedThemeToggle } from '@/components/ThemeToggle'
 
-import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing} from 'react-native-reanimated'
+import Animated, {useAnimatedStyle, useSharedValue, withTiming, interpolateColor, useDerivedValue, Easing, withDelay} from 'react-native-reanimated'
 import { scheduleOnUI } from 'react-native-worklets';
 
 export default function Home() {
@@ -94,7 +94,7 @@ export default function Home() {
     }
   })
   const fadeIn2 = () => {
-    opacity2.value=withTiming(1,{duration:5000, easing:Easing.linear})
+    opacity2.value=withDelay(2000, withTiming(1,{duration:5000, easing:Easing.linear}))
   }
   useEffect(() => {
     fadeIn2();
@@ -111,7 +111,7 @@ export default function Home() {
         <Animated.View style={animatedBg} className=' w-24 h-24 rounded-full mt-4' />
       </Pressable>
       <Pressable onPress={()=>handleScaleUp()} onLongPress={()=>handleReset()} >
-        <Animated.View style={animateScale} className=' w-24 h-24 bg-yellow-500 rounded-full mt-4' />
+        <Animated.View style={animateScale} className=' w-24 h-24 bg-yellow-500 rounded-full mt-4 z-50' />
       </Pressable>
      
       <Animated.View style={animatedStyle2} className=' w-24 h-24 bg-green-700 rounded-full mt-4' />
