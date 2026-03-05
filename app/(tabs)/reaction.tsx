@@ -5,9 +5,9 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
   useAnimatedReaction,
-  runOnJS,
   interpolateColor,
 } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 
 export default function UnlockButton() {
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -19,7 +19,7 @@ export default function UnlockButton() {
     (current, previous) => {
       // Logic: If we just crossed 1.5 moving upwards
       if (current >= 1.5 && (previous ?? 0) < 1.5) {
-        runOnJS(setIsUnlocked)(true);
+        scheduleOnRN(setIsUnlocked, true);
       }
     }
   );
