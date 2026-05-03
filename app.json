@@ -27,7 +27,12 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "unstable_useServerMiddleware": true
+        }
+      ],
       [
         "expo-splash-screen",
         {
